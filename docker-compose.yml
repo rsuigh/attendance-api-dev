@@ -10,19 +10,15 @@ services:
       - "8009:8009"
     depends_on:
       - db
-    environment:
-      - POSTGRES_DB=attendancedb
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=Qw09?7bArxo]
 
   db:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: attendancedb
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: Qw09?7bArxo]
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 volumes:
   postgres_data:
