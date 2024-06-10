@@ -3,8 +3,9 @@ version: '3'
 services:
   attendance-db:
     image: postgres:13
+    container_name: postgres_attendence_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -15,7 +16,7 @@ services:
 
   web:
     build: .
-    command: bash -c 'while !</dev/tcp/attendance-db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:8009'
+    command: 'python manage.py runserver 0.0.0.0:8009'
     volumes:
       - .:/app
     ports:
