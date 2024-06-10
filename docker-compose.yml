@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8099
+    volumes:
+      - .:/app
+    ports:
+      - "8099:8099"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_DB=attendancedb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=Qw09?7bArxo]
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: attendancedb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Qw09?7bArxo]
+
+volumes:
+  postgres_data:
