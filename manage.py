@@ -20,3 +20,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def wait_for_db():
+    db_conn = None
+    while not db_conn:
+        try:
+            db_conn = connections['default']
+        except OperationalError:
+            print('Aguardando o banco de dados...')
+            time.sleep(1)
+
+    print('Banco de dados pronto!')
