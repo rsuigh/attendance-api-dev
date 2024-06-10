@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8009
 
 # Comando para rodar o servidor de desenvolvimento do Django
-CMD ["uvicorn", "attendance.asgi:application", "runserver", "0.0.0.0:8009"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8009"]
