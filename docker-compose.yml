@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  attendance-db:
     image: postgres:13
     ports:
       - "5432:5432"
@@ -15,18 +15,18 @@ services:
 
   web:
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:8009'
+    command: bash -c 'while !</dev/tcp/attendance-db/5432; do sleep 1; done; python manage.py runserver 0.0.0.0:8009'
     volumes:
       - .:/app
     ports:
       - "8009:8009"
     depends_on:
-      - db
+      - attendance-db
     environment:
       - DATABASE_NAME=postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
-      - DATABASE_HOST=db
+      - DATABASE_HOST=attendance-db
       - DATABASE_PORT=5432
 
 
