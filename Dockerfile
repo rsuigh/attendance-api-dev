@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expõe a porta que o Django usará
-EXPOSE 8099
+EXPOSE 8009
 
 # Comando para rodar o servidor de desenvolvimento do Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8009"]
