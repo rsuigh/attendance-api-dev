@@ -2,6 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import time
+from psycopg2 import OperationalError
+from django.db import connections
 
 
 def main():
@@ -17,11 +20,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
-if __name__ == '__main__':
-    main()
-
-
 def wait_for_db():
     db_conn = None
     while not db_conn:
@@ -32,3 +30,14 @@ def wait_for_db():
             time.sleep(1)
 
     print('Banco de dados pronto!')
+
+
+if __name__ == '__main__':
+    main()
+    wait_for_db()
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(sys.argv)
+
+
+
+
