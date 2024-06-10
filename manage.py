@@ -20,24 +20,11 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-def wait_for_db():
-    db_conn = None
-    while not db_conn:
-        try:
-            db_conn = connections['default']
-        except OperationalError:
-            print('Aguardando o banco de dados...')
-            time.sleep(1)
-
-    print('Banco de dados pronto!')
 
 
 if __name__ == '__main__':
     main()
-    wait_for_db()
-    from django.core.management import execute_from_command_line
-    execute_from_command_line(sys.argv)
-
+    
 
 
 
