@@ -40,5 +40,12 @@ class AttendanceRecorder(models.Model):
         null=True
     )
 
+    course_id = models.CharField(
+        verbose_name="Id do curso",
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return f"{self.user} - {self.date}"
