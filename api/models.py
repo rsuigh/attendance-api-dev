@@ -10,29 +10,29 @@ CLASS_TYPE_CHOICES = (
 
 
 class AttendanceRecorder(models.Model):
-'''
-    API post example:
-    {
-        "id": 1,
-        "students_attendance": [
-            {
-                "fulano": "true"
-            },
-            {
-                "beltrano": "false"
-            },
-            {
-                "zezinho": "true"
-            }
-        ],
-        "date": "2024-06-17",
-        "attendance": null,
-        "class_type": "an",
-        "course_id": "course-v1:SuirosProductions+C01+2024_T1"
-    }
-    true = present
-    false = not present
-'''
+    '''
+        API post example:
+        {
+            "id": 1,
+            "students_attendance": [
+                {
+                    "fulano": "true"
+                },
+                {
+                    "beltrano": "false"
+                },
+                {
+                    "zezinho": "true"
+                }
+            ],
+            "date": "2024-06-17",
+            "attendance": null,
+            "class_type": "an",
+            "course_id": "course-v1:SuirosProductions+C01+2024_T1"
+        }
+        true = present
+        false = not present
+    '''
 
     students_attendance = models.JSONField(
         max_length=2000,
