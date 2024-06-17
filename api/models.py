@@ -3,8 +3,6 @@ from django.conf import settings
 
 
 
-USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
-
 CLASS_TYPE_CHOICES = (
     ('an', 'Aula normal'),
     ('ar', 'Aula reposição'),
@@ -13,11 +11,8 @@ CLASS_TYPE_CHOICES = (
 
 class AttendanceRecorder(models.Model):
 
-    user = models.OneToOneField(
-        USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE
+    students_presents = models.TextField(
+        null=True
     )
 
     date = models.DateField(
