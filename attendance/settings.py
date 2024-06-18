@@ -88,7 +88,7 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_WHITELIST = ["http://localhost:2029", "http://localhost:8080"] 
+CORS_ORIGIN_WHITELIST = ["*"] 
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
