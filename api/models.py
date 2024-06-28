@@ -14,6 +14,7 @@ class AttendanceRecorder(models.Model):
         API post example:
         {
             "id": 1,
+            "user": 12345
             "students_attendance": [
                 {
                     "fulano": "true"
@@ -34,8 +35,15 @@ class AttendanceRecorder(models.Model):
         false = not present
     '''
 
+    user = models.PositiveIntegerField(
+        max_length=100,
+        null=True,
+        blank=True,
+        default=None
+    )
+
     students_attendance = models.JSONField(
-        max_length=2000,
+        max_length=5000,
         null=True,
         blank=True,
         default=None  
