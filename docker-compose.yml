@@ -3,7 +3,7 @@ version: '3'
 services:
   attendance-db:
     image: postgres:13
-    container_name: postgres_attendence_db
+    container_name: postgres_attendance_db
     ports:
       - "5433:5432"
     environment:

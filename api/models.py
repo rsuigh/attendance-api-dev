@@ -36,7 +36,6 @@ class AttendanceRecorder(models.Model):
     '''
 
     user = models.PositiveIntegerField(
-        max_length=100,
         null=True,
         blank=True,
         default=None
