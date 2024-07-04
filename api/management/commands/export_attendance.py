@@ -5,7 +5,7 @@ import csv
 
 
 class Command(BaseCommand):
-    help = 'Export attendance data to CSV
+    '''Export attendance data to CSV'''
     def handle(self, *args, **kwargs):
         records = []
 
