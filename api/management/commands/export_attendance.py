@@ -7,29 +7,21 @@ import csv
 class Command(BaseCommand):
     '''Export attendance data to CSV'''
     def handle(self, *args, **kwargs):
-        class_records = AttendanceRecorder.objects.all()
-        students = set()
-        dates = set()
-        records = []  
-        for record in class_records:
-            dates.add(record.date)
-            for attendance in record.students_attendance:
-                students.add(attendance['username'])
-        sorted_dates = sorted(dates)
-        attendance_dict = defaultdict(lambda: {date: None for date in sorted_dates})
-        for record in class_records:
+        for record in attendance_records:
             user = record.user
             date = record.date
+            class_type = record.class_type
             for attendance in record.students_attendance:
-                attendance_dict[attendance['present']][date] = attendance['present']
-        csv_filename = (f'attendance_user_id{class_records[0].user}.csv')
-        with open('/app/'+csv_filename, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            # Escrever o cabeçalho
-            header = ['aluno'] + [f'data_{date}' for date in sorted_dates]
-            writer.writerow(header)
-                
-            # Escrever os registros
-            for student, attendance in attendance_dict.items():
-                row = [student] + [attendance[date] for date in sorted_dates]
+                username = attendance["username"]
+                present = attendance["present"]
+                student_attendance[(user, username)][f"{date}+{class_type}"] = 1 if present else 0
+                dates_classes.add(f"{date}+{class_type}")
+
+        with open('attendance_report.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter='|')
+            writer.writerow(headers)
+            for (user_id, username), attendance in student_attendance.items():
+                row = [user_id, username]
+                for date_class in sorted_dates_classes:
+                    row.append(attendance.get(date_class, 0))
                 writer.writerow(row)
