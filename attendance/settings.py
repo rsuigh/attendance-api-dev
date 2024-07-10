@@ -96,6 +96,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://apps.local.edly.io:2029",
 ]
 
+REST_SAFE_LIST_IPS = [
+    # IP, add here openedx ip
+]
+
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
