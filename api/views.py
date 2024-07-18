@@ -17,5 +17,5 @@ class AttendanceHistoryListAPIView(generics.ListCreateAPIView):
         queryset = AttendanceRecorder.objects.all()
         date = self.request.query_params.get('date', None)
         if name is not None:
-            queryset = queryset.filter(date__icontains=name)
+            queryset = queryset.filter(date=date)
         return queryset
