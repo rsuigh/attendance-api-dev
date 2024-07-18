@@ -9,3 +9,13 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
     serializer_class = AttendanceRecorderSerializer
     permission_classes = [SafelistPermission]
 
+
+class AttendanceHistoryListAPIView(generics.ListCreateAPIView):
+    serializer_class = AttendanceRecorderSerializer
+
+    def get_queryset(self):
+        queryset = AttendanceRecorder.objects.all()
+        date = self.request.query_params.get('date', None)
+        if name is not None:
+            queryset = queryset.filter(date__icontains=name)
+        return queryset

@@ -13,10 +13,6 @@ class SafelistPermission(BasePermission):
 
         remote_addr = request.META['REMOTE_ADDR']
 
-        for valid_ip in settings.REST_SAFE_LIST_IPS:
-            if remote_addr == valid_ip or remote_addr.startswith(valid_ip):
-                return True
-
         # we may accept requests from anywhere during development
         if settings.DEBUG and '*' in settings.REST_SAFE_LIST_IPS:
             return True

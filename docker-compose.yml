@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  attendance-db:
+  db:
     image: postgres:13
     container_name: postgres_attendance_db
     ports:
@@ -22,12 +22,12 @@ services:
     ports:
       - "8009:8009"
     depends_on:
-      - attendance-db
+      - db
     environment:
       - DATABASE_NAME=postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
-      - DATABASE_HOST=attendance-db
+      - DATABASE_HOST=db
       - DATABASE_PORT=5432
 
 

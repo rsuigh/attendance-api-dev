@@ -96,9 +96,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://apps.local.edly.io:2029",
 ]
 
-REST_SAFE_LIST_IPS = [
-    # IP, add here openedx ip
-]
+REST_SAFE_LIST_IPS = []
+
+if DEBUG:
+    REST_SAFE_LIST_IPS += [
+        '*'
+    ]
 
 
 REST_FRAMEWORK = {
