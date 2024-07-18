@@ -96,7 +96,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://apps.local.edly.io:2029",
 ]
 
-REST_SAFE_LIST_IPS = []
+REST_SAFE_LIST_IPS = [
+    # IP, add here openedx ip
+    os.getenv('MFE_ADDRESS'),
+]
 
 if DEBUG:
     REST_SAFE_LIST_IPS += [
