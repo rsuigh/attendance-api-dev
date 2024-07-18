@@ -29,7 +29,6 @@ services:
       - DATABASE_PASSWORD=postgres
       - DATABASE_HOST=attendance-db
       - DATABASE_PORT=5432
-      - MFE_ADDRESS=18.235.19.94
 
 
 volumes:
