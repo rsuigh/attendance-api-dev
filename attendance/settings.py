@@ -98,6 +98,7 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_SAFE_LIST_IPS = [
     # IP, add here openedx ip
+    os.getenv('MFE_ADDRESS'),
 ]
 
 
