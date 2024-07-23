@@ -10,7 +10,7 @@ from .permissions import SafelistPermission
 
 class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
     serializer_class = AttendanceRecorderSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [SafelistPermission]
     def get_queryset(self):
         queryset = AttendanceRecorder.objects.all()
         date = self.request.query_params.get('date', None)
