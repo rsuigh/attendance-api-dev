@@ -6,5 +6,6 @@ from django.contrib.auth.models import User
 class SafelistPermission(BasePermission):
 
     def has_permission(self, request, view):
-        
-        print(request.headers)
+
+        for header in request.headers:
+            print(header+': '+request.headers[header])
