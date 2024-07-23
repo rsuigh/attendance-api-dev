@@ -9,3 +9,4 @@ class SafelistPermission(BasePermission):
 
         for header in request.headers:
             print(header+': '+request.headers[header])
+        
