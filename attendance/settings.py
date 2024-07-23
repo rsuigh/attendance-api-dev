@@ -91,23 +91,12 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.edly.io']
 #CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "https://apps.sicbrasil.org.br",
     "http://apps.local.edly.io:2029",
 ]
-
-REST_SAFE_LIST_IPS = [
-    # IP, add here openedx ip
-    os.getenv('MFE_ADDRESS'),
-]
-
-if DEBUG:
-    REST_SAFE_LIST_IPS += [
-        '*'
-    ]
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
