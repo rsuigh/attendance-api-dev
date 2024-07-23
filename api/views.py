@@ -3,10 +3,8 @@ from rest_framework import generics
 from .models import AttendanceRecorder
 from .serializers import AttendanceRecorderSerializer
 from .permissions import SafelistPermission
-from django.contrib.auth.decorators import login_required
 
 
-@login_required
 class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
     serializer_class = AttendanceRecorderSerializer
     permission_classes = [SafelistPermission]
