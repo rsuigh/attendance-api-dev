@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # instalar dependencias do mysql
-RUN apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+RUN apt-get install -y python3-dev default-libmysqlclient-dev build-essential pkg-config
 
 # Instale as dependências
 RUN pip install --no-cache-dir -r requirements.txt
