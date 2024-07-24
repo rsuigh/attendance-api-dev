@@ -81,12 +81,13 @@ WSGI_APPLICATION = 'attendance.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# this imformations come from lms.env.yml
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'openedx',
         'USER': 'openedx',
-        'PASSWORD': 'UQ4N1Fdr',
+        'PASSWORD': 'aDn3VCqu',
         'HOST': 'mysql',
         'PORT': 3306,
     }
