@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'openedx',
         'USER': 'openedx',
-        'PASSWORD': 'aDn3VCqu',
+        'PASSWORD': 'UQ4N1Fdr',
         'HOST': 'mysql',
         'PORT': 3306,
     }
