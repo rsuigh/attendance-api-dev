@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'db',
+        'HOST': 'attendance-db',
         'PORT': 5432,
         # 'ENGINE': 'django.db.backends.mysql',
         # 'NAME': 'openedx',
