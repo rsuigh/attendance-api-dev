@@ -84,18 +84,18 @@ WSGI_APPLICATION = 'attendance.wsgi.application'
 # this imformations come from lms.env.yml
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': os.environ.get('POSTGRES_DB'),
-        # 'USER': os.environ.get('POSTGRES_USER'),
-        # 'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        # 'HOST': 'db',
-        # 'PORT': 5432,
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'openedx',
-        'USER': 'openedx',
-        'PASSWORD': 'UQ4N1Fdr',
-        'HOST': 'mysql',
-        'PORT': 3306,
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'openedx',
+        # 'USER': 'openedx',
+        # 'PASSWORD': 'UQ4N1Fdr',
+        # 'HOST': 'mysql',
+        # 'PORT': 3306,
     }
 }
 
