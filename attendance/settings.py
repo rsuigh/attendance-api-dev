@@ -100,7 +100,7 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'local.edly.io', 'apps.local.edly.io']
-#CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     "https://apps.sicbrasil.org.br",
     "http://apps.local.edly.io:2029",
