@@ -12,10 +12,10 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = AttendanceRecorder.objects.all()
         date = self.request.query_params.get('date', None)
-        course_id = self.request.query_params.get('course_id', None)
+        course_id = self.request.query_params.get('course_id', None).replace(" ","+")
         print(course_id)
-        # if date is not None:
-        #     queryset = queryset.filter(date=date)
+        if date is not None:
+            queryset = queryset.filter(date=date)
         if course_id is not None:
             queryset = queryset.filter(course_id=course_id)
         return queryset
