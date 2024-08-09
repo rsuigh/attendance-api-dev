@@ -18,6 +18,6 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         if course_id is not None:
             # the character "+", for some reason, disapear in url params
             queryset = queryset.filter(course_id=course_id.replace(" ","+"))
-        return queryset
+        return queryset.order_by('date')
 
     
