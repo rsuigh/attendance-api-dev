@@ -13,8 +13,8 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         queryset = AttendanceRecorder.objects.all()
         date = self.request.query_params.get('date', None)
         course_id = self.request.query_params.get('course_id', None)
-        if date is not None:
-            queryset = queryset.filter(date=date)
+        # if date is not None:
+        #     queryset = queryset.filter(date=date)
         if course_id is not None:
             queryset = queryset.filter(course_id=course_id)
         return queryset
