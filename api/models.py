@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Count
+
+
 
 
 
@@ -72,11 +75,11 @@ class AttendanceRecorder(models.Model):
     def __str__(self):
         return f"{self.user} - {self.date}"
     
-    def student_attendence_presence(self):
+    def student_attendance_presence(self):
         if not self.students_attendance:
             return {}
         
-        total_classes = {}
+        total_classes = AttendanceRecorder.objects.values("date").annotate(count = Count("date")).distinct().count()
         total_attendance = {}
 
         for entry in self.students_attendance:
@@ -85,14 +88,12 @@ class AttendanceRecorder(models.Model):
 
             if username not in total_attendance:
                 total_attendance[username] = 0
-                total_classes[username] = 0
 
-            total_classes[username] += 1
             if present:
                 total_attendance[username] += 1
 
         percentage = {
-            username: (total_attendance[username] / total_classes[username]) * 100
+            username: (total_attendance[username] / total_classes) * 100
             for username in total_attendance
         }
 
