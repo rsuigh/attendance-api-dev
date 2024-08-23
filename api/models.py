@@ -87,7 +87,7 @@ class AttendanceRecorder(models.Model):
                 total_attendance[username] = 0
                 total_classes[username] = 0
 
-            total_classes += 1
+            total_classes[username] += 1
             if present:
                 total_attendance[username] += 1
 
