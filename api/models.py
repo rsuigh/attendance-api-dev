@@ -71,3 +71,29 @@ class AttendanceRecorder(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.date}"
+    
+    def student_attendence_presence(self):
+        if not self.students_attendance:
+            return {}
+        
+        total_classes = {}
+        total_attendance = {}
+
+        for entry in self.students_attendance:
+            username = entry.get("username")
+            present = entry.get("present", False)
+
+            if username not in total_attendance:
+                total_attendance[username] = 0
+                total_classes[username] = 0
+
+            total_classes += 1
+            if present:
+                total_attendance[username] += 1
+
+        percentage = {
+            username: (total_attendance[username] / total_classes[username]) * 100
+            for username in total_attendance
+        }
+
+        return percentage
