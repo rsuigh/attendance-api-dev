@@ -48,7 +48,7 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         
         # Itera sobre o queryset para encontrar a primeira aparição de cada aluno
         for record in queryset:
-            record_date = datetime.strptime(record.date, "%Y-%m-%d")
+            record_date = record.date
             for attendance in record.students_attendance:
                 username = attendance['username']
                 if username not in first_appearance_dates:
@@ -61,7 +61,7 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
 
         # Processa os registros para contagem
         for record in queryset:
-            record_date = datetime.strptime(record.date, "%Y-%m-%d")
+            record_date = record.date
             for attendance in record.students_attendance:
                 username = attendance['username']
                 enrollment_date = enrollment_dates.get(username)
