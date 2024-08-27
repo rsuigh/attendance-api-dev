@@ -1,4 +1,6 @@
 from rest_framework import generics, permissions
+from collections import defaultdict
+
 
 from .models import AttendanceRecorder
 from .serializers import AttendanceRecorderSerializer
@@ -38,20 +40,37 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         return response
     
     def calculate_attendance_percentage(self, queryset):
-        attendance_count = {}
+        attendance_count = defaultdict(lambda: {'present': 0, 'total': 0, 'replacement': 0})
         total_classes = queryset.values('date').distinct().count()
 
+        # Processa os registros para contagem
         for record in queryset:
-            for attendance in record.students_attendance:
-                username = attendance['username']
-                if username not in attendance_count:
-                    attendance_count[username] = {'present': 0, 'total': 0}
-                attendance_count[username]['total'] += 1
-                if attendance['present']:
-                    attendance_count[username]['present'] += 1
+            # Conta a aula se for normal
+            if record.class_type == 'an':
+                total_classes += 1
+                for attendance in record.students_attendance:
+                    username = attendance['username']
+                    attendance_count[username]['total'] += 1
+                    if attendance['present']:
+                        attendance_count[username]['present'] += 1
 
+            # Processa aulas de reposição
+            elif record.class_type == 'ar':
+                for attendance in record.students_attendance:
+                    username = attendance['username']
+                    # Subtrai uma falta para o aluno
+                    if not attendance['present']:
+                        if attendance_count[username]['total'] > 0:
+                            attendance_count[username]['total'] -= 1
+                        attendance_count[username]['replacement'] += 1
+                    else:
+                        attendance_count[username]['replacement'] += 1
+
+        # Calcula a porcentagem de presença
         attendance_percentage = {
-            username: round((counts['present'] / total_classes) * 100, 1)
+            username: round(
+                (counts['present'] / max(counts['total'], 1)) * 100, 1
+            )
             for username, counts in attendance_count.items()
         }
         return attendance_percentage
