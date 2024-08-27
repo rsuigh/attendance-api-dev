@@ -1,7 +1,6 @@
 from rest_framework import generics, permissions
 from collections import defaultdict
-
-
+from datetime import datetime
 from .models import AttendanceRecorder
 from .serializers import AttendanceRecorderSerializer
 from .permissions import SafelistPermission
@@ -13,6 +12,7 @@ from django.db.models import Subquery, OuterRef
 class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
     serializer_class = AttendanceRecorderSerializer
     # permission_classes = [permissions.IsAuthenticated]
+    
     def get_queryset(self):
         queryset = AttendanceRecorder.objects.all()
         date = self.request.query_params.get('date', None)
@@ -31,40 +31,53 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         queryset = self.get_queryset()
         response = super().list(request, *args, **kwargs)
         
+        # Obter as datas da primeira presença ou falta de cada aluno
+        enrollment_dates = self.get_first_appearance_dates(queryset)
+        
         # Calcular a porcentagem de presença usando o queryset filtrado
-        attendance_percentage = self.calculate_attendance_percentage(queryset)
+        attendance_percentage = self.calculate_attendance_percentage(queryset, enrollment_dates)
         response.data = {
             'attendance_records': response.data,
             'attendance_percentage': attendance_percentage
         }
         return response
     
-    def calculate_attendance_percentage(self, queryset):
+    def get_first_appearance_dates(self, queryset):
+        # Inicializa um dicionário para armazenar a primeira data de cada aluno
+        first_appearance_dates = {}
+        
+        # Itera sobre o queryset para encontrar a primeira aparição de cada aluno
+        for record in queryset:
+            record_date = datetime.strptime(record.date, "%Y-%m-%d")
+            for attendance in record.students_attendance:
+                username = attendance['username']
+                if username not in first_appearance_dates:
+                    first_appearance_dates[username] = record_date
+        
+        return first_appearance_dates
+    
+    def calculate_attendance_percentage(self, queryset, enrollment_dates):
         attendance_count = defaultdict(lambda: {'present': 0, 'total': 0, 'replacement': 0})
-        total_classes = queryset.values('date').distinct().count()
 
         # Processa os registros para contagem
         for record in queryset:
-            # Conta a aula se for normal
-            if record.class_type == 'an':
-                total_classes += 1
-                for attendance in record.students_attendance:
-                    username = attendance['username']
-                    attendance_count[username]['total'] += 1
-                    if attendance['present']:
-                        attendance_count[username]['present'] += 1
-
-            # Processa aulas de reposição
-            elif record.class_type == 'ar':
-                for attendance in record.students_attendance:
-                    username = attendance['username']
-                    # Subtrai uma falta para o aluno
-                    if not attendance['present']:
-                        if attendance_count[username]['total'] > 0:
-                            attendance_count[username]['total'] -= 1
-                        attendance_count[username]['replacement'] += 1
-                    else:
-                        attendance_count[username]['replacement'] += 1
+            record_date = datetime.strptime(record.date, "%Y-%m-%d")
+            for attendance in record.students_attendance:
+                username = attendance['username']
+                enrollment_date = enrollment_dates.get(username)
+                
+                if enrollment_date and record_date >= enrollment_date:
+                    if record.class_type == 'an':
+                        attendance_count[username]['total'] += 1
+                        if attendance['present']:
+                            attendance_count[username]['present'] += 1
+                    elif record.class_type == 'ar':
+                        if not attendance['present']:
+                            if attendance_count[username]['total'] > 0:
+                                attendance_count[username]['total'] -= 1
+                            attendance_count[username]['replacement'] += 1
+                        else:
+                            attendance_count[username]['replacement'] += 1
 
         # Calcula a porcentagem de presença
         attendance_percentage = {
