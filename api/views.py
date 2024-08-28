@@ -57,8 +57,7 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
         return first_appearance_dates
     
     def calculate_attendance_percentage(self, queryset, enrollment_dates):
-        attendance_count = defaultdict(lambda: {'present': 0, 'total': 0, 'replacement': 0})
-
+        attendance_count = defaultdict(lambda: {'present': 0, 'total_classes': 0, 'replacement': 0})
         # Processa os registros para contagem
         for record in queryset:
             record_date = record.date
@@ -68,24 +67,25 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
                 
                 if enrollment_date and record_date >= enrollment_date:
                     if record.class_type == 'an':
-                        attendance_count[username]['total'] += 1
+                        attendance_count[username]['total_classes'] += 1
                         if attendance['present']:
                             attendance_count[username]['present'] += 1
                     elif record.class_type == 'ar':
-                        if not attendance['present']:
-                            if attendance_count[username]['total'] > 0:
-                                attendance_count[username]['total'] -= 1
+                        if attendance['present']:
                             attendance_count[username]['replacement'] += 1
-                        else:
-                            attendance_count[username]['replacement'] += 1
-
         # Calcula a porcentagem de presença
-        attendance_percentage = {
-            username: round(
-                (counts['present'] / max(counts['total'], 1)) * 100, 1
-            )
-            for username, counts in attendance_count.items()
-        }
+        
+        attendance_percentage = {}
+
+        for username, counts in attendance_count.items():
+            # Soma presenças normais e de reposição
+            total_presences = counts['present'] + counts['replacement']
+            # Calcula a porcentagem de presença
+            percentage = round((total_presences / max(counts['total_classes'], 1)) * 100, 1)
+            # Armazena o resultado no dicionário
+            attendance_percentage[username] = percentage
+        
+        print(attendance_percentage)
         return attendance_percentage
 
     
