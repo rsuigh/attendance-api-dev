@@ -86,7 +86,6 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
             # Armazena o resultado no dicionário
             attendance_percentage[username] = percentage
         
-        print(attendance_percentage)
         return attendance_percentage
 
     

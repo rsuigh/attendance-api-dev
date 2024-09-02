@@ -4,6 +4,7 @@ from .models import AttendanceRecorder
 from datetime import datetime, timedelta
 
 
+
 class AttendanceRecorderSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -11,7 +12,7 @@ class AttendanceRecorderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        today = datetime.today()
+        today = datetime.today().date()
 
         if today.day <= 5:
             previous_month = today - timedelta(days=today.day)
