@@ -71,7 +71,8 @@ class AttendanceRecorderListAPIView(generics.ListCreateAPIView):
                         if attendance['present']:
                             attendance_count[username]['present'] += 1
                     elif record.class_type == 'ar':
-                        if attendance['present'] and attendance_count[username]['replacement']+attendance_count[username]['present'] < attendance_count[username]['total_classes']:
+                        if attendance['present'] and attendance_count[username]['replacement'] \
+                                +attendance_count[username]['present'] < attendance_count[username]['total_classes']:
                             attendance_count[username]['replacement'] += 1
         # Calcula a porcentagem de presença
         
