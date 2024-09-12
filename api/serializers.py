@@ -19,7 +19,7 @@ class AttendanceRecorderSerializer(serializers.ModelSerializer):
             if data['date'] < previous_month:
                 raise serializers.ValidationError("Você só pode enviar datas do mês anterior.")
             
-        elif data['date'] > today.date():
+        elif data['date'] > today:
             raise serializers.ValidationError("Não é permitido enviar datas do futuro") 
             
         else:
