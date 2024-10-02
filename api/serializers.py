@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from django.db.models import Count
 from .models import AttendanceRecorder
-from datetime import datetime, timedelta
-
+from datetime import date
 
 
 class AttendanceRecorderSerializer(serializers.ModelSerializer):
@@ -11,21 +9,22 @@ class AttendanceRecorderSerializer(serializers.ModelSerializer):
         model = AttendanceRecorder
         fields = '__all__'
 
+    
+
     def validate(self, data):
-        today = datetime.today().date()
+        today = date.today()
+
+        if data['date'] > today:
+            raise serializers.ValidationError("Não é permitido enviar datas do futuro")
 
         if today.day <= 5:
-            previous_month = today - timedelta(days=today.day)
-            if data['date'] < previous_month:
-                raise serializers.ValidationError("Você só pode enviar datas do mês anterior.")
-            
-        elif data['date'] > today:
-            raise serializers.ValidationError("Não é permitido enviar datas do futuro") 
-            
+            limit_date = date(today.year, today.month-1, 1)
         else:
-            if data['date'].month < today.month and data['date'].year == today.year:
-                raise serializers.ValidationError("Não é permitido enviar datas do mês anterior após o dia 5.")
-            
+            limit_date = date(today.year, today.month, 1)
+
+        if data['date'] < limit_date:
+            raise serializers.ValidationError("Não é permitido enviar datas referentes a um relatório anterior")
+
         return data
 
 
